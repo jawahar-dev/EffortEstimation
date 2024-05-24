@@ -1,0 +1,72 @@
+<!-- templates/tasks.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Tasks</h2>
+
+<!-- Form to create a new task -->
+<form method="post" action="{{ url_for('routes.tasks') }}">
+    <div class="form-group">
+        <label for="name">Task Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+        <label for="complexity">Complexity</label>
+        <select class="form-control" id="complexity" name="complexity" required>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="size">Size</label>
+        <select class="form-control" id="size" name="size" required>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="task_type">Task Type</label>
+        <input type="text" class="form-control" id="task_type" name="task_type" required>
+    </div>
+    <div class="form-group">
+        <label for="notes">Additional Notes</label>
+        <textarea class="form-control" id="notes" name="notes"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Task</button>
+</form>
+
+<!-- Table of tasks -->
+<h3>Existing Tasks</h3>
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Task Name</th>
+            <th>Complexity</th>
+            <th>Size</th>
+            <th>Task Type</th>
+            <th>Additional Notes</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.name }}</td>
+            <td>{{ task.complexity }}</td>
+            <td>{{ task.size }}</td>
+            <td>{{ task.task_type }}</td>
+            <td>{{ task.notes }}</td>
+            <td>
+                <a href="{{ url_for('routes.edit_task', task_id=task.task_id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ url_for('routes.delete_task', task_id=task.task_id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

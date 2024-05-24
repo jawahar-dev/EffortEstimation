@@ -1,0 +1,14 @@
+flask
+pyjwt
+datetime
+uuid
+Flask-SQLAlchemy
+mysqlclient
+unittest2
+pytest
+pymongo
+pymysql
+Flask-PyMongo
+Flask-Bcrypt 
+Flask-Login
+flask_jwt_extended
