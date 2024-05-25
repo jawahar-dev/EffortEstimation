@@ -37,14 +37,26 @@ class User(UserMixin):
         return self.id
     
 
+# models.py
+
+from . import mongo
+from bson.objectid import ObjectId
+
 class Task:
-    def __init__(self, task_id, name, complexity, size, task_type, notes):
-        self.task_id = task_id
+    def __init__(self, name, complexity, size, task_type, notes):
         self.name = name
         self.complexity = complexity
         self.size = size
         self.task_type = task_type
         self.notes = notes
+
+    @staticmethod
+    def find_all():
+        return mongo.db.tasks.find()
+
+    @staticmethod
+    def find_by_name(name):
+        return mongo.db.tasks.find({"name": name})
 
     @staticmethod
     def create_task(name, complexity, size, task_type, notes):
@@ -56,36 +68,31 @@ class Task:
             "notes": notes
         }
         result = mongo.db.tasks.insert_one(new_task)
-        return Task(str(result.inserted_id), name, complexity, size, task_type, notes)
+        return new_task
 
     @staticmethod
-    def find_all():
-        tasks = mongo.db.tasks.find()
-        return [Task(str(task['_id']), task['name'], task['complexity'], task['size'], task['task_type'], task['notes']) for task in tasks]
+    def calculate_estimation(name):
+        complexity_mapping = {"high": 8, "medium": 6, "low": 4}
+        size_mapping = {"small": 4, "medium": 6, "large": 8}
 
-    @staticmethod
-    def find_by_id(task_id):
-        task_data = mongo.db.tasks.find_one({"_id": ObjectId(task_id)})
-        if task_data:
-            return Task(str(task_data['_id']), task_data['name'], task_data['complexity'], task_data['size'], task_data['task_type'], task_data['notes'])
-        return None
+        total_tasks = mongo.db.tasks.count_documents({"name": name})
+        tasks = Task.find_by_name(name)
+        total_hours = 0
 
-    @staticmethod
-    def update_task(task_id, name, complexity, size, task_type, notes):
-        mongo.db.tasks.update_one(
-            {"_id": ObjectId(task_id)},
-            {"$set": {
-                "name": name,
-                "complexity": complexity,
-                "size": size,
-                "task_type": task_type,
-                "notes": notes
-            }}
-        )
+        for task in tasks:
+            complexity_value = complexity_mapping.get(task['complexity'], 0)
+            size_value = size_mapping.get(task['size'], 0)
+            total_hours += complexity_value * size_value
 
-    @staticmethod
-    def delete_task(task_id):
-        mongo.db.tasks.delete_one({"_id": ObjectId(task_id)})
+        if total_tasks > 0:
+            average_hours = int(total_hours / total_tasks)
+        else:
+            average_hours = 0
+
+        confidence_level = "high" if total_tasks > 10 else "medium" if total_tasks > 5 else "low"
+        estimated_range = str(average_hours) + "-" + str(average_hours+5)
+
+        return average_hours, confidence_level, estimated_range
 
 
 
