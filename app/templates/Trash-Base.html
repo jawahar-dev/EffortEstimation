@@ -1,3 +1,5 @@
+<!-- templates/base.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +30,7 @@
             <ul class="navbar-nav ml-auto">
                 {% if current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('routes.render_tasks') }}">Manage Tasks</a>
+                        <a class="nav-link" href="{{ url_for('routes.tasks') }}">SumbitEstimate</a>
                     </li>
                     <li class="nav-item">
                         <span class="navbar-text">
