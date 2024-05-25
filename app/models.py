@@ -90,8 +90,7 @@ class Task:
             average_hours = 0
 
         confidence_level = "high" if total_tasks > 10 else "medium" if total_tasks > 5 else "low"
-        estimated_range = str(average_hours) + "-" + str(average_hours+5)
-
+        estimated_range = str(average_hours - 5) + "-" + str(average_hours+5)
         return average_hours, confidence_level, estimated_range
 
 
