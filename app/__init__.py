@@ -5,6 +5,7 @@ from flask_jwt_extended import JWTManager
 from flask_login import LoginManager
 from config import Config
 
+#objects initializing mongoDB, JWT, Loginmanager
 mongo = PyMongo()
 bcrypt = Bcrypt()
 jwt = JWTManager()

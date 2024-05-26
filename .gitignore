@@ -2,3 +2,5 @@
 venv/
 __pycache__
 app/templates/notrequired/
+.pytest_cache
+EffortEstmt.log

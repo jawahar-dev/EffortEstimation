@@ -44,7 +44,7 @@
             <th>Estimated-Range(Hours)</th>
         </tr>
     </thead>
-    <tbody id="task-details">
+    <tbody id="estimation-details">
         <!-- Task details will be populated here -->
     </tbody>
 </table>
@@ -59,7 +59,7 @@
         const task_type = document.getElementById('task_type').value;
         const notes = document.getElementById('notes').value;
 
-        fetch('/api/tasks', {
+        fetch('/api/submit-estimate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -80,10 +80,10 @@
     });
 
     function fetchTaskDetails(name) {
-        fetch(`/api/task/name/${name}`)
+        fetch(`/api/est-calculate/name/${name}`)
         .then(response => response.json())
         .then(data => {
-            const taskDetails = document.getElementById('task-details');
+            const taskDetails = document.getElementById('estimation-details');
             taskDetails.innerHTML = `
                 <tr>
                     <td>${data.name}</td>
