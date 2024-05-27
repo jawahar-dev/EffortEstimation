@@ -86,7 +86,7 @@ def login():
                 if request.args.get('api') == 'true':
                     return jsonify({"access_token": access_token, "message": "login successful"}), 200
                 else:
-                    return redirect(url_for('routes.render_tasks'))
+                    return redirect(url_for('routes.render_dashboard'))
             else:
                 flash("Invalid credentials", "danger")
                 logger.error('Invalid Credentials')
@@ -104,12 +104,17 @@ def logout():
     logger.info('User Logged Out successfully !!')
     return redirect(url_for('routes.login'))
 
-#tasks route, to enter task for estimation submission
-@bp.route('/tasks')
+#route, just to show Dashboard of estimation tool
+@bp.route('/dashboard')
 @login_required
-def render_tasks():
-    return render_template('tasks.html')
+def render_dashboard():
+    return render_template('dashboard.html')
 
+#tasks route, to enter task for estimation submission
+@bp.route('/submit-estimate')
+@login_required
+def submit_estimate():
+    return render_template('tasks.html')
 
 #effort submission and calculation API
 @bp.route('/api/submit-estimate', methods=['POST'])

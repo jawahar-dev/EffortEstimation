@@ -84,14 +84,14 @@
         .then(response => response.json())
         .then(data => {
             const taskDetails = document.getElementById('estimation-details');
-            taskDetails.innerHTML = `
-                <tr>
-                    <td>${data.name}</td>
-                    <td>${data.average_hours}</td>
-                    <td>${data.confidence_level}</td>
-                    <td>${data.estimated_range}</td>
-                </tr>
-            `;
+            taskDetails.innerHTML = 
+                '<tr>' +
+                    '<td>' + data.name + '</td>' +
+                    '<td>' + data.average_hours + '</td>' +
+                    '<td>' + data.confidence_level + '</td>' +
+                    '<td>' + data.estimated_range + '</td>' +
+                '</tr>';
+
         })
         .catch(error => {
             console.error('Error:', error);

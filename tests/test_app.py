@@ -1,8 +1,7 @@
-# tests/test_app.py
 import pytest
 from flask import url_for
 
-def test_register(client, init_db):
+def test_register(client):
     response = client.post(url_for('routes.register'), data={
         'username': 'testuser',
         'password': 'testpassword'
@@ -10,7 +9,7 @@ def test_register(client, init_db):
     assert b'Login' in response.data
     assert response.status_code == 200
 
-def test_login(client, init_db):
+def test_login(client):
     client.post(url_for('routes.register'), data={
         'username': 'testuser',
         'password': 'testpassword'
@@ -22,7 +21,7 @@ def test_login(client, init_db):
     assert b'Task Management' in response.data
     assert response.status_code == 200
 
-def test_create_task(client, init_db):
+def test_create_task(client):
     client.post(url_for('routes.register'), data={
         'username': 'testuser',
         'password': 'testpassword'
@@ -43,7 +42,7 @@ def test_create_task(client, init_db):
     assert response.status_code == 201
     assert b'Task created successfully' in response.data
 
-def test_task_details(client, init_db):
+def test_task_estimation(client):
     client.post(url_for('routes.register'), data={
         'username': 'testuser',
         'password': 'testpassword'
@@ -62,7 +61,7 @@ def test_task_details(client, init_db):
         'notes': 'test notes'
     }, follow_redirects=True)
 
-    response = client.get(url_for('routes.task_details', name='test task'), follow_redirects=True)
+    response = client.get(url_for('routes.task_estimation', name='test task'), follow_redirects=True)
     assert response.status_code == 200
     data = response.get_json()
     assert data['name'] == 'test task'
