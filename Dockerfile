@@ -1,24 +1,25 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.8-slim
+FROM python:3.10-slim
 
-# Set the working directory in the container
+# Set environment variables to prevent Python from writing .pyc files and to buffer stdout/stderr
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory
 WORKDIR /app
 
-# Copy the requirements file into the container
-COPY requirements.txt requirements.txt
+# Copy the requirements.txt file into the container
+COPY requirements.txt .
 
-# Install any dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install the dependencies specified in requirements.txt
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
-# Copy the current directory contents into the container at /app
+# Copy the rest of the application code into the container
 COPY . .
 
-# Make port 5000 available to the world outside this container
+# Expose port 5000 to the outside world
 EXPOSE 5000
 
-# Define environment variable
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=development
-
-# Run the application
-CMD ["python3", "app.py"]
+# Set the command to run the Flask application
+CMD ["flask", "run", "--host=0.0.0.0"]
