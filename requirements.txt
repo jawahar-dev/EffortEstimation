@@ -3,7 +3,6 @@ pyjwt
 datetime
 uuid
 Flask-SQLAlchemy
-mysqlclient
 unittest2
 pytest
 pymongo
