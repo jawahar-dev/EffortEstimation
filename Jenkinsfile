@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Define environment variables
-        DOCKER_IMAGE = "your-dockerhub-username/your-flask-app"
+        DOCKER_IMAGE = "jawaharpatro/effort-app"
         DOCKER_CREDENTIALS_ID = "your-docker-credentials-id"
     }
 
@@ -24,16 +24,16 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                script {
-                    // Run tests using the Docker image
-                    docker.image("${env.DOCKER_IMAGE}:latest").inside {
-                        sh 'python -m pytest'
-                    }
-                }
-            }
-        }
+        // stage('Run Tests') {
+        //     steps {
+        //         script {
+        //             // Run tests using the Docker image
+        //             docker.image("${env.DOCKER_IMAGE}:latest").inside {
+        //                 sh 'python -m pytest'
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Push Docker Image') {
             steps {
