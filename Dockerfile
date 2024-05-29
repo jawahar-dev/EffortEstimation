@@ -1,14 +1,13 @@
 FROM python:3.10-slim
 
-# Set environment variables to prevent Python from writing .pyc files and to buffer stdout/stderr
+# Set environment variables to prevent python from writing .pyc files and to buffer
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-WORKDIR /app
 
+WORKDIR /app
 COPY requirements.txt .
 
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . .
 EXPOSE 5000

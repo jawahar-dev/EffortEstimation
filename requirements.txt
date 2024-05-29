@@ -8,6 +8,7 @@ pytest
 pymongo
 pymysql
 Flask-PyMongo
-Flask-Bcrypt 
+Flask-Bcrypt
 Flask-Login
 flask_jwt_extended
+

@@ -8,7 +8,7 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Git Checkout') {
             steps {
                 // Checkout the source code from the repository
                 git branch: 'main', url: 'https://github.com/jawahar-dev/EffortEstimation.git'
@@ -24,16 +24,16 @@ pipeline {
             }
         }
 
-        // stage('Run Tests') {
-        //     steps {
-        //         script {
-        //             // Run tests using the Docker image
-        //             docker.image("${env.DOCKER_IMAGE}:latest").inside {
-        //                 sh 'python -m pytest'
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Run Tests') {
+            steps {
+                script {
+                    // Run tests using the Docker image
+                    docker.image("${env.DOCKER_IMAGE}:latest").inside {
+                        sh 'python -m pytest'
+                    }
+                }
+            }
+        }
 
         stage('Push Docker Image') {
             steps {
@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deployment') {
             steps {
                 script {
                     // Deploy the application using Docker Compose
@@ -68,10 +68,10 @@ pipeline {
             }
         }
         success {
-            echo 'Pipeline succeeded!'
+            echo 'Pipeline Was Successful !'
         }
         failure {
-            echo 'Pipeline failed!'
+            echo 'Pipeline Was failed !'
         }
     }
 }

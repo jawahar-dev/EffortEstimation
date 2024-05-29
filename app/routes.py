@@ -9,10 +9,6 @@ from flask_login import login_user, logout_user, login_required, current_user
 #registering our app with flask blueprint
 bp = Blueprint('routes', __name__) 
 
-# #initializing logging module to log log messages of our app
-# logging.basicConfig(level=logging.DEBUG,format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',datefmt='%Y-%m-%d %H:%M:%S',handlers=[logging.FileHandler("EffortEstmt.log")])  
-# logger = logging.getLogger(__name__)
-
 
 #loading the current logged in user
 @login_manager.user_loader
@@ -40,21 +36,17 @@ def register():
         password = request.form['password']
 
         if not validate_username(username):
-            # logger.error(f'Username is not valid: {username}')
             flash("Username must be at least 3 characters long", "danger")
         elif not validate_password(password):
-            # logger.error(f'Password is not valid: {password}')
             flash("Password must be at least 4 characters long", "danger")
         else:
             #checking if already user is existed or not
             user_exist = User.find_by_username(username)
             if user_exist:
-                # logger.error('User already exists')
                 flash("User already exists", "danger")
             else:
                 #creating user with username and password
                 User.create_user(username, password)
-                # logger.info('User created successfully')
                 return redirect(url_for('routes.login'))
     return render_template('register.html')
 
@@ -67,10 +59,8 @@ def login():
         password = request.form['password']
         
         if not validate_username(username):
-            # logger.error(f'Username is not valid: {username}')
             flash("Invalid username or password", "danger")
         elif not validate_password(password):
-            # logger.error(f'Username is not valid: {password}')
             flash("Invalid username or password", "danger")
         else:
             
@@ -80,18 +70,16 @@ def login():
             if user and bcrypt.check_password_hash(user.password, password):
                 access_token = create_access_token(identity={'username': user.username})
                 login_user(user)
-                # logger.info('Logged In successfully')
                 
                 #used for if this route called as api if yes showing accesstoken as json format
                 if request.args.get('api') == 'true':
-                    return jsonify({"access_token": access_token, "message": "login successful"}), 200
+                    return jsonify({"access_token": access_token, "message": "login successful", "status_code": 200})
                 else:
                     return redirect(url_for('routes.render_dashboard'))
             else:
                 flash("Invalid credentials", "danger")
-                # logger.error('Invalid Credentials')
                 if request.args.get('api') == 'true':
-                    return jsonify({"message": "Invalid credentials"}), 401
+                    return jsonify({"message": "Invalid credentials", "status_code": 401})
     
     return render_template('login.html')
 
@@ -101,7 +89,6 @@ def login():
 @login_required
 def logout():
     logout_user()
-    # logger.info('User Logged Out successfully !!')
     return redirect(url_for('routes.login'))
 
 #route, just to show Dashboard of estimation tool
@@ -130,21 +117,15 @@ def tasks_api():
     # Create and save the new task
     new_task = Tasks.create_task(name, complexity, size, task_type, notes)
     new_task_id = new_task.inserted_id
-    # logger.debug(f'Task Created successfully: {name}')
     
-    return jsonify({"message": "Task created successfully", "task_id": str(new_task_id)}), 201
+    return jsonify({"message": "Task created successfully", "task_id": str(new_task_id),"status_code": 201})
 
 @bp.route('/api/est-calculate/name/<name>', methods=['GET'])
 @login_required
 def task_estimation(name):
-    task = Tasks.find_by_name(name)
-    if not task:
-        # logger.error(f'Task Was not found: {name}')
-        return jsonify({"message": "Task not found"}), 404
 
     # Calculate estimation based on historical data
     avg_hours, confidence_level, estimated_range = Tasks.estimate_calculation(name)
-    # logger.debug(f'Task Estimation Details: averahe-hours - {avg_hours} confidence-level - {confidence_level} estimated-range- {estimated_range}')
     estimation_details = {
         "name": name,
         "average_hours": avg_hours,
@@ -152,7 +133,7 @@ def task_estimation(name):
         "estimated_range" : estimated_range
     }
     # print(estimation_details)
-    return jsonify(estimation_details), 200
+    return jsonify(estimation_details)
 
 
 

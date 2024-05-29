@@ -81,7 +81,7 @@ class Tasks:
         
         #counting the number of tasks in DB
         total_tasks = mongo.db.tasks.count_documents({"name": name})
-        print(total_tasks)
+        
         #retriving the tasks using name
         tasks = Tasks.find_by_name(name)
         total_hours = 0

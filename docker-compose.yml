@@ -3,10 +3,10 @@ version: '3.8'
 services:
   db:
     image: mongo:4.4
-    container_name: mongo
+    container_name: mongo-db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_PASSWORD: YOUR-PASSWORD
     volumes:
       - mongo_data:/data/db
     ports:
@@ -16,13 +16,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: flask-app
+    container_name: effort-app
     ports:
       - "5000:5000"
     environment:
       FLASK_APP: app.py
       FLASK_ENV: development
-      DATABASE_URL: mongodb://root:example@db:27017/estimationdb?authSource=admin
+      DATABASE_URL: mongodb://root:YOUR-PASSWORD@db:27017/estimationdb?authSource=admin
     depends_on:
       - db
 

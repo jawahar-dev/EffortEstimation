@@ -5,8 +5,8 @@ from app import mongo
 @pytest.fixture(scope='module')
 def app():
     app = create_app()
-    app.config['SERVER_NAME'] = 'localhost:5000'  # set your server name 
-    app.config['APPLICATION_ROOT'] = '/'  # set your application root
+    app.config['SERVER_NAME'] = 'localhost:5000'  # use your server name 
+    app.config['APPLICATION_ROOT'] = '/'  # use your application root
     with app.app_context():
         yield app
 

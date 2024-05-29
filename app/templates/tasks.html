@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Task Management</h1>
+<h1>Submit Yor Task Here</h1>
 <form id="task-form">
     <div class="form-group">
         <label for="name">Task Name</label>
@@ -28,10 +28,10 @@
         <input type="text" class="form-control" id="task_type" placeholder="Task Type" required>
     </div>
     <div class="form-group">
-        <label for="notes">Additional Notes</label>
+        <label for="notes">Description(Notes)</label>
         <textarea class="form-control" id="notes" placeholder="Additional Notes"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Create Task</button>
+    <button type="submit" class="btn btn-primary">Create-Task</button>
 </form>
 
 <h2 class="mt-4">Task Estimation Details</h2>
@@ -45,7 +45,7 @@
         </tr>
     </thead>
     <tbody id="estimation-details">
-        <!-- Task details will be populated here -->
+       
     </tbody>
 </table>
 
@@ -71,7 +71,7 @@
             if (data.task_id) {
                 fetchTaskDetails(name);
             } else {
-                alert('Task creation failed');
+                alert('Failed - Task creation');
             }
         })
         .catch(error => {
