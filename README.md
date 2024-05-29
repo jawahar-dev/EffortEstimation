@@ -1,4 +1,5 @@
 #clone the repo
+
 git clone https://github.com/jawahar-dev/EffortEstimation.git
 
 #goto project folder and create virtual environment, and activate it
@@ -18,6 +19,7 @@ pip install -r requirements.txt
 python app.py
 
 #open the server in web browser
+
 http://localhost:5000 
 
 
@@ -25,7 +27,8 @@ http://localhost:5000
 
 python -m pytest
 
-#using the application Docker environment using docker-compose
+#using the application in Docker environment using docker-compose
+
 #install docker, docker-compose in the machine, and execute below commands
 
 docker-compose build
