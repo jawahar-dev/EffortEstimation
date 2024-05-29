@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Define environment variables
         DOCKER_IMAGE = "jawaharpatro/effort-app"
-        DOCKER_CREDENTIALS_ID = "your-docker-credentials-id"
+        DOCKER_CREDENTIALS_ID = "MY_DOCKER_ID"
     }
 
     stages {
