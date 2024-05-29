@@ -4,7 +4,9 @@ git clone https://github.com/jawahar-dev/EffortEstimation.git
 #goto project folder and create virtual environment, and activate it
 
 python -m venv venv
+
 cd venv/scrips
+
 .activate
 
 #install required packages using pip
@@ -27,4 +29,5 @@ python -m pytest
 #install docker, docker-compose in the machine, and execute below commands
 
 docker-compose build
+
 docker compose up
