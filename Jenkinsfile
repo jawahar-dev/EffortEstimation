@@ -50,8 +50,8 @@ pipeline {
                 script {
                     // Deploy the application using Docker Compose
                     sh '''
-                    docker-compose down
-                    docker-compose up -d
+                    docker compose down
+                    docker compose up -d
                     '''
                 }
             }
